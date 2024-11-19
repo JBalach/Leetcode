@@ -1,0 +1,15 @@
+int searchInsert(int* nums, int numsSize, int target) {
+    int a=0,c=numsSize-1;
+    while(a<=c){
+        int b=a+(c-a)/2;
+        if(nums[b]==target)
+        return b;
+
+        else if(nums[b]<target)
+        a=b+1;
+
+        else
+        c=b-1;
+    }
+    return a;
+}
