@@ -1,0 +1,21 @@
+bool isPalindrome(int x) {
+    // if number is negative .
+    if(x < 0){
+        return false ; 
+    }
+    int long m = x ;    // m is store value of x 
+    int ln = 0 ;
+    int long newn = 0 ;          // newn means newn 
+    while (x != 0){
+        ln = x % 10 ; 
+        newn = newn * 10 ;
+        newn = newn + ln ;
+        x = x / 10 ; 
+    }
+    if(m == newn){
+        return true ;
+    }
+    else {
+        return false ;
+    }
+}
