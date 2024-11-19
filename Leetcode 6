@@ -1,0 +1,47 @@
+#include<stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+#define max 10000
+
+typedef struct {
+    char item[max];
+    int top;
+} stack;
+
+void push(stack *s, char p) {
+    s->item[++s->top] = p;
+}
+
+char pop(stack *s) {
+    return s->item[s->top--];
+}
+
+char peek(stack *s) {
+    return s->item[s->top];
+}
+
+bool isValid(char *s) {
+    stack st;
+    st.top = -1;
+
+    for (int i = 0; s[i] != '\0'; i++) {
+        if (s[i] == '(' || s[i] == '[' || s[i] == '{') {
+            if (st.top >= max - 1) {
+                printf("overflow\n");
+                return false;
+            }
+            push(&st, s[i]);
+        } else {
+            if (st.top == -1 || 
+               (s[i] == ')' && peek(&st) != '(') ||
+               (s[i] == ']' && peek(&st) != '[') ||
+               (s[i] == '}' && peek(&st) != '{')) {
+                return false;
+            }
+            pop(&st);
+        }
+    }
+    return st.top == -1;
+}
+
