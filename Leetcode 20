@@ -8,3 +8,4 @@ bool isSameTree(struct TreeNode* p, struct TreeNode* q) {
     // Recursively check the left and right subtrees
     return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
 }
+
