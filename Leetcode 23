@@ -13,3 +13,4 @@ struct TreeNode* sortedArrayToBSTHelper(int* nums, int left, int right) {
 struct TreeNode* sortedArrayToBST(int* nums, int numsSize) {
     return sortedArrayToBSTHelper(nums, 0, numsSize - 1);
 }
+
