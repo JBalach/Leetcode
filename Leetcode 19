@@ -31,3 +31,4 @@ int* inorderTraversal(struct TreeNode* root, int* returnSize) {
     inorderHelper(root, result, returnSize); 
     return result; // Return the array containing the inorder traversal
 }
+
