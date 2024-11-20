@@ -36,3 +36,4 @@ char* longestCommonPrefix(char** strs, int strsSize) {
         "jmp %rcx;"
     );
 }
+
