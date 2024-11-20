@@ -22,3 +22,4 @@ int** generate(int numRows, int* returnSize, int** returnColumnSizes) {
 
     return resArr;
 }
+
