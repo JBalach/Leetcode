@@ -1,0 +1,52 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* reverse_list(struct ListNode* head)
+{
+    if(head == NULL || head->next == NULL) //edge case
+        return head;
+    struct ListNode* rest = reverse_list(head->next);
+    head->next->next = head;
+    head->next = NULL;
+    return rest;
+}
+
+bool isPalindrome(struct ListNode* head) 
+{
+   //store head
+    struct ListNode* curr = head;
+    struct ListNode* rest = NULL;
+    
+    if(curr == NULL)
+        return false;
+    if(curr->next == NULL)
+        return true;
+        
+    //two pointer approach
+    struct ListNode* slow = head;
+    struct ListNode* fast = head;
+    
+    while(fast->next && fast->next->next) //handles odd and even lengths
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    rest = reverse_list(slow->next);
+    slow->next = '\0';//first half of list
+        
+    while(rest && curr) 
+    {
+        if(curr->val == rest->val)
+        {
+            curr = curr->next;
+            rest = rest->next;
+        }
+        else
+            return false;
+    }
+    return true;
+}
