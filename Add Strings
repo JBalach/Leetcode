@@ -1,0 +1,46 @@
+char* addStrings(char* num1, char* num2) {
+    int l1 = strlen(num1)-1, l2 = strlen(num2)-1 , carry = 0,tmpResult;
+    int max = (l1>l2)?l1:l2;
+    char *result =(char*)malloc(sizeof(char)*(max+3));
+    int i = 0;            
+    while(l1 >=0 && l2 >= 0){
+        int digit1 = (int)num1[l1] - '0';
+        int digit2 = (int)num2[l2] - '0';
+        tmpResult = digit1 + digit2 + carry;
+        carry = tmpResult/10;
+        result[i++] = tmpResult%10 + '0';
+        l1--;
+        l2--;
+    }
+    while(l1 >= 0){
+        int digit3 = (int)num1[l1]+ carry -'0' ;
+        carry=digit3/10;
+        digit3 = digit3%10;
+        result[i++] = digit3 + '0';
+        l1--;
+    }
+    while(l2 >= 0){
+        int digit4 = (int)num2[l2]+ carry -'0' ;
+        carry=digit4/10;
+        digit4 = digit4%10;
+        result[i++] = digit4 + '0';     
+        l2--;
+    }
+    if(carry > 0){
+        result[i] = carry + '0';
+        i++;
+    }
+    result[i] = '\0';
+    l1 = 0;
+    l2 =strlen(result)-1;
+    while(l1 < l2){
+        char tmp =result[l1];
+        result[l1] = result[l2];
+        result[l2] = tmp;
+        l1++;
+        l2--;
+    }
+
+    return result; 
+    
+}
