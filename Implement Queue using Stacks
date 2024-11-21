@@ -1,0 +1,117 @@
+/* Beautiful C language 100% of TIME + handling all errors. */
+
+const unsigned int INIT_SIZE = 1U << 5;  /* 1 << 5 == 32 */
+
+typedef struct {
+    int *inStack, *outStack;
+    unsigned int inSize, inIndex;
+    unsigned int outSize, outIndex;
+} MyQueue;
+
+
+MyQueue* myQueueCreate(void) {
+    MyQueue* queue = malloc(sizeof(*queue));
+    if (!queue){
+        fprintf(stderr, "Not enough memory for queue\n");
+        goto return_null;
+    }
+
+    queue->inIndex = 0;
+    queue->inSize = INIT_SIZE;
+    queue->inStack = malloc(queue->inSize * sizeof(*queue->inStack));
+    if (!queue->inStack){
+        fprintf(stderr, "Not enough memory for queue's array in stack\n");
+        goto clean_queue;
+    }
+    
+    queue->outIndex = 0;
+    queue->outSize = INIT_SIZE;
+    queue->outStack = malloc(queue->outSize * sizeof(*queue->outStack));
+    if (!queue->outStack){
+        fprintf(stderr, "Not enough memory for queue's array out stack\n");
+        goto clean_inStack;
+    }
+
+    return queue;
+
+clean_inStack:
+    free(queue->inStack);
+
+clean_queue:
+    free(queue);
+
+return_null:
+    return NULL;
+}
+
+
+void myQueuePush(MyQueue* obj, int x) {
+    int *new_arr = NULL;
+    if (obj->inIndex == obj->inSize) {
+
+        new_arr = realloc(obj->inStack, (obj->inSize << 1) * sizeof(*new_arr));
+        if (!new_arr){
+            fprintf(stderr, "Not enough memory for reallocation of memory in array\n");
+            return;
+        }
+
+        obj->inSize <<= 1;
+        obj->inStack = new_arr;
+    }
+
+    obj->inStack[obj->inIndex++] = x;
+}
+
+void myQueueMove(MyQueue* obj) {
+    int *new_arr = NULL;
+    unsigned int new_size = obj->outSize;
+    if (!obj->outIndex) {
+        assert(obj->inIndex > 0 && "The queue is empty!\n");
+
+        if (obj->inIndex > new_size) {
+            do {
+                new_size <<= 1U;
+            } while (obj->inIndex > new_size);
+
+            new_arr = realloc(obj->outStack, new_size * sizeof(*new_arr));
+            if (!new_arr){
+                fprintf(stderr, "Not enough memory for reallocation of memory in array\n");
+                return;
+            }
+            obj->outStack = new_arr;
+            obj->outSize = new_size;
+        }
+        
+        while (obj->inIndex > 0U) {
+            obj->outStack[obj->outIndex++] = obj->inStack[--obj->inIndex];
+        }
+    }
+}
+
+
+int myQueuePop(MyQueue* obj) {
+    myQueueMove(obj);
+    return obj->outStack[--obj->outIndex];
+}
+
+
+int myQueuePeek(MyQueue* obj) {
+    myQueueMove(obj);    
+    return obj->outStack[obj->outIndex-1];
+}
+
+
+bool myQueueEmpty(MyQueue* obj) {
+    return !obj->inIndex && !obj->outIndex;
+}
+
+
+void myQueueFree(MyQueue* obj) {
+    if (!obj){
+        fprintf(stderr, "Queue est NULL\n");
+        return;
+    }
+    free(obj->inStack);
+    free(obj->outStack);
+    free(obj);
+}
