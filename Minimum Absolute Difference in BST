@@ -1,0 +1,27 @@
+int prev = INT_MAX, minDiff = INT_MAX;
+
+void inOrder(struct TreeNode* root) {
+    if (root == NULL) return;
+    
+    // Traverse the left subtree
+    inOrder(root->left);
+    
+    // Calculate minimum difference
+    if (prev != INT_MAX) {
+        int diff = abs(root->val - prev);
+        if (diff < minDiff) {
+            minDiff = diff;
+        }
+    }
+    prev = root->val;
+    
+    // Traverse the right subtree
+    inOrder(root->right);
+}
+
+int getMinimumDifference(struct TreeNode* root) {
+    prev = INT_MAX; // Reset the previous node value
+    minDiff = INT_MAX; // Reset the minimum difference
+    inOrder(root);
+    return minDiff;
+}
