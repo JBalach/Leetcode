@@ -1,0 +1,14 @@
+bool checkRecord(char* s) {
+    int a=0,i=0;
+    while(s[i]!='\0')
+    {
+        if(s[i]=='L'&&s[i+1]=='L'&&s[i+2]=='L')
+            return false;
+        else if(s[i]=='A')
+        a++;
+        i++;
+    }
+    if(a<2)
+    return true;
+    return false;
+}
