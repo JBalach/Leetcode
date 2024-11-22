@@ -1,0 +1,27 @@
+void reverse(char *str, int start, int end) {
+    int mid = ceil((start + end)/2.0), j = end;
+    char tmp;
+
+    for (int i = start; i < mid; i++) {
+        tmp = str[i];
+        str[i] = str[j];
+        str[j] = tmp;
+        j--;
+    }
+}
+
+char* reverseStr(char* s, int k) {
+    int len = strlen(s), start, end, dk = 2*k;
+
+    if (len < dk && len >= k) {
+        reverse(s, 0, k-1);
+        return s;
+    }
+
+    for (start = 0, end = k-1; end < len; end += dk, start += dk)
+        reverse(s, start, end);
+
+    if (start < len) reverse(s, start, len-1);
+
+    return s;
+}
