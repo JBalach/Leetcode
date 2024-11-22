@@ -1,0 +1,26 @@
+bool canPlaceFlowers(int* flowerbed, int flowerbedSize, int n) {
+    int sum = 0;
+
+    if(flowerbedSize == 1 && flowerbed[0] == 0){
+        return true;
+    }
+
+    for(int i = 1; i < flowerbedSize; i++){
+        if(flowerbed[0] == 0 && flowerbed[1] == 0){
+            flowerbed[0] = 1;
+            sum++;
+        } else if (i == flowerbedSize-1 && flowerbed[i-1] == 0
+        && flowerbed[i] == 0){
+            sum++;
+        } else if (i != flowerbedSize-1 && flowerbed[i+1] == 0
+        && flowerbed[i-1] == 0 && flowerbed[i] != 1){
+            flowerbed[i] = 1;
+            sum++;
+        }
+    }
+    
+    if(sum > n || sum == n) {
+        return true;
+    }
+    return false;
+}
