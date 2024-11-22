@@ -1,0 +1,54 @@
+/**
+ * Return an array of arrays of size *returnSize.
+ * The sizes of the arrays are returned as *returnColumnSizes array.
+ * Note: Both returned array and *columnSizes array must be malloced, assume caller calls free().
+ */
+int** matrixReshape(int** mat, int matSize, int* matColSize, int r, int c, int* returnSize, int** returnColumnSizes) {
+     if (matSize * (*matColSize) != r * c) {
+        *returnSize = matSize;
+        *returnColumnSizes = matColSize;
+        return mat;
+    }
+
+    //int arr[matSize * (* matColSize)];
+    int* arr = (int*)malloc(matSize * (*matColSize) * sizeof(int));
+    int n = 0;
+   
+
+    for(int i=0;i<matSize;i++)
+    {
+        for(int j=0;j<*matColSize;j++)
+        {
+            arr[n]=mat[i][j];
+            n++;
+        }
+    }
+
+
+    int** ptr = (int **)malloc(r * sizeof(int *));
+    *returnColumnSizes = (int *)malloc(r * sizeof(int));
+    *returnSize = r;
+
+    for (int i = 0; i < r; i++) {
+        (*returnColumnSizes)[i] = c;
+        ptr[i] = (int*)malloc(c * sizeof(int));
+    }
+
+    n=0;
+    for(int i=0;i<r;i++)
+    {
+        for(int j=0;j<c;j++)
+        {
+            ptr[i][j]=arr[n];
+            n++;
+        }
+    }
+
+    free(arr);
+
+    return ptr;
+
+
+
+
+}
