@@ -1,0 +1,22 @@
+#define CONSTRAINT 11
+
+char* convertToBase7(int num) {
+    char* result=malloc(CONSTRAINT*sizeof(char));
+    char len=0, negative=num<0; num*=num<0?-1:1;
+
+    /* damn edge case */
+    if(num==0){ result[0]='0'; result[1]='\0'; return result; }
+
+    /* construct */
+    for(; num; num/=7) { result[len++]=(num%7)+'0'; }
+    if(negative){ result[len++]='-'; }
+
+    /* reverse */
+    for(char l=0, r=len-1; l<r; l++, r--)
+    { negative=result[l]; result[l]=result[r]; result[r]=negative; }
+
+    /* end of string */
+    result[len]='\0';
+
+    return result;
+}
