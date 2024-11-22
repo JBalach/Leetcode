@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+
+typedef struct TreeNode TN_t;
+
+bool isTheSame(TN_t* node1, TN_t* node2) {
+    bool hasLeft1=node1->left, hasLeft2=node2->left,
+        hasRight1=node1->right, hasRight2=node2->right;
+
+    if( node1->val!=node2->val||(hasLeft1^hasLeft2)||(hasRight1^hasRight2)
+        || (hasLeft1&&!isTheSame(node1->left, node2->left))
+        || (hasRight1&&!isTheSame(node1->right, node2->right))
+    ){ return false; }
+
+    return true;
+}
+
+bool isSubtree(TN_t* root, TN_t* subRoot) {
+    if(isTheSame(root, subRoot)
+        ||(root->left&&isSubtree(root->left, subRoot))
+        ||(root->right&&isSubtree(root->right, subRoot))
+    ){ return true; }
+
+    return false;
+}
