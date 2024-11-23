@@ -1,0 +1,36 @@
+#include <limits.h>
+
+double max(const double a, const double b) {
+    return (a > b) ? a : b;
+}
+
+double findMaxAverage(int* nums, int numsSize, int k) {
+    int sum = 0;
+    double avg = INT_MIN;
+    double maxValue = INT_MIN;
+
+    if (k > numsSize)
+        return 0;
+
+    // First set value
+    int i = 0;
+    while (i < k) {
+        sum += nums[i];
+        i++;
+    }
+    avg = (double)sum / k;
+    maxValue = avg;
+    // Set rest of values
+    i = 0;
+    while (i < numsSize - k) {
+        sum -= nums[i];
+        sum += nums[i+k];
+        avg = (double)sum / k;
+
+        maxValue = max(maxValue, avg);
+    
+        i++;
+    }
+
+    return maxValue;
+}
