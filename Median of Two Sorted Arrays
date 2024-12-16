@@ -1,0 +1,43 @@
+double findMedianSortedArrays(int* nums1, int n, int* nums2, int m) {
+
+    int a= 0;
+    int b= 0;
+    int c= 0;
+    int max = m+n;
+    int median = max/2;
+    int prev, curr;
+
+    while((a<n|| b<m) && c<=median)
+    {
+        c++;
+        prev = curr;
+        if(a==n)
+        {
+            curr = nums2[b++];
+        }
+        else if(b==m)
+        {
+            curr = nums1[a++];
+        }
+        else if(nums1[a] < nums2[b])
+        {
+            curr = nums1[a++];
+        }
+        else
+        {
+            curr = nums2[b++];
+        }
+    }
+
+    double median_pos;
+    if(max % 2)
+    {
+        median_pos = (double)curr;
+    }
+    else
+    {
+        median_pos = (double)(prev + curr)/2;
+    }
+
+    return median_pos;
+}
